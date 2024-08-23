@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biking Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="container">
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <div id="controls">
+            <button class="button" id="leftBtn">←</button>
+            <button class="button" id="rightBtn">→</button>
+        </div>
+        <div id="info">
+            <p id="hearts">❤️ Hearts: 3</p>
+            <p id="distance">📏 Distance: 0 m</p>
+            <p id="time">⏱️ Time: 00:00:00</p>
+        </div>
+        <div id="restart" style="display: none;">
+            <button class="button" id="restartBtn">Start Again</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
