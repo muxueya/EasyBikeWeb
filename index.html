@@ -7,14 +7,25 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="container">
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
+    <div id="menu-container">
+        <div id="menu">
+            <h1>Biking Game</h1>
+            <p>Welcome to the Biking Game! Avoid obstacles and keep your hearts!</p>
+            <h3>Select Difficulty:</h3>
+            <button class="button" id="easyBtn">Easy</button>
+            <button class="button" id="mediumBtn">Medium</button>
+            <button class="button" id="hardBtn">Hard</button>
+            <p>Controls: Use left/right buttons to dodge obstacles.</p>
+        </div>
+    </div>
+    <div id="game" style="display:none;">
+        <canvas id="gameCanvas"></canvas>
         <div id="controls">
             <button class="button" id="leftBtn">←</button>
             <button class="button" id="rightBtn">→</button>
         </div>
         <div id="info">
-            <p id="hearts">❤️ Hearts: 3</p>
+            <p id="hearts">❤️ Hearts: 5</p>
             <p id="distance">📏 Distance: 0 m</p>
             <p id="time">⏱️ Time: 00:00:00</p>
         </div>
