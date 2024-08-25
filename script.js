@@ -64,6 +64,7 @@ function startGame(selectedDifficulty) {
     document.getElementById('menu').style.display = 'none'; // Hide menu
     document.getElementById('menu-container').classList.add('hidden'); // Hide the menu
     document.getElementById('game').style.display = 'block'; // Show game
+    document.getElementById('instructionsWindow').classList.add('hidden'); // Hide instructions when game starts
     gameLoop(); // Start game loop
 }
 
@@ -71,6 +72,14 @@ function startGame(selectedDifficulty) {
 document.getElementById('easyBtn').addEventListener('click', () => startGame('easy'));
 document.getElementById('mediumBtn').addEventListener('click', () => startGame('medium'));
 document.getElementById('hardBtn').addEventListener('click', () => startGame('hard'));
+
+document.getElementById('instructionsBtn').addEventListener('click', () => {
+    document.getElementById('instructionsWindow').classList.remove('hidden'); // Show instructions
+});
+
+document.getElementById('closeInstructions').addEventListener('click', () => {
+    document.getElementById('instructionsWindow').classList.add('hidden'); // Hide instructions
+});
 
 function drawBackground() {
     bgOffset += 2; // Scrolling speed

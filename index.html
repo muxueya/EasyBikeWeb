@@ -15,9 +15,36 @@
             <button class="button" id="easyBtn">Easy</button>
             <button class="button" id="mediumBtn">Medium</button>
             <button class="button" id="hardBtn">Hard</button>
+            <br />
+            <button class="button" id="instructionsBtn" style="background-color: #ffb66d;">Show More Instructions</button>
             <p>Controls: Use left/right buttons to dodge obstacles.</p>
         </div>
     </div>
+
+    <!-- Instructions Window -->
+<div id="instructionsWindow" class="hidden">
+    <div class="instructions-content">
+        <span class="close-btn" id="closeInstructions">&times;</span>
+        <h2>Instructions</h2>
+        <p>Welcome to the Biking Game! Here are the details on how to play:</p>
+        <h3>Controls</h3>
+        <p>Use the "←" and "→" buttons to dodge obstacles. You can also use the arrow keys on your keyboard.</p>
+        <h3>Obstacles</h3>
+        <ul>
+            <li>
+                <img src="Rock.png" alt="Rock" width="50" height="50"> Rocks: Lose 1 heart.
+            </li>
+            <li>
+                <img src="Rabbit_right.png" alt="Rabbit" width="50" height="50"> Rabbits: Lose 2 hearts.
+            </li>
+            <li>
+                <img src="Boy1.png" alt="Pedestrian" width="50" height="70"> Pedestrians: Lose 3 hearts.
+            </li>
+        </ul>
+        <h3>Scoring</h3>
+        <p>Are your hearts running low? Don't worry! Collect flowers when your hearts are below 5. Each flower collected gives you 1 additional heart. The game ends when you lose all your hearts.</p>
+    </div>
+</div>
 
     <div id="game" style="display:none;">
         <canvas id="gameCanvas"></canvas>

@@ -63,6 +63,38 @@ p {
     background: #FF3B2F; /* Even darker shade when active */
 }
 
+.instructions-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    z-index: 20; /* Ensure it is above other content */
+    width: 80%; /* Responsive width */
+    max-width: 500px; /* Max width for large screens */
+    text-align: left; /* Align text to the left */
+}
+
+.instructions-content img {
+    vertical-align: middle; /* Align images with text */
+    margin-right: 10px; /* Space between image and text */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none; /* Hide elements with this class */
+}
+
 #game {
     display: none; /* Hide game section by default */
 }
