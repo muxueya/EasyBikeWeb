@@ -214,12 +214,17 @@ function gameLoop() {
         if (Math.random() < 0.01) createFlower(); // Decreased flower generation rate to 10%
         requestAnimationFrame(gameLoop);
     } else {
-        ctx.fillStyle = 'black';
-        ctx.fillText('Game Over!', canvas.width / 2 - 40, canvas.height / 2);
-        ctx.fillText(`Distance: ${distance} m`, canvas.width / 2 - 50, canvas.height / 2 + 20);
-        document.getElementById('restart').style.display = 'block'; // Show restart button
+        // Show the game over container
+        document.getElementById('finalDistance').innerText = `Distance: ${distance} m`; // Update distance
+        document.getElementById('gameOverContainer').classList.remove('hidden'); // Show the container
+        document.getElementById('game').style.display = 'none'; // Hide the game canvas
     }
 }
+
+document.getElementById('restartBtn').addEventListener('click', () => {
+    location.reload(); // Reload the page to restart the game
+});
+
 
 function moveLeft() {
     if (bikeX > 0) bikeX -= 15; // Move bike left

@@ -80,6 +80,32 @@ canvas {
     transform: translateX(-50%); /* Translate to truly center */
 }
 
+/* Existing styles remain unchanged */
+
+#gameOverContainer {
+    position: fixed; /* Fixed position to overlay on the game */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Translate to truly center */
+    background: rgba(255, 255, 255, 0.8); /* Light background for visibility */
+    border-radius: 15px; /* Rounded corners */
+    padding: 20px; /* Padding around the content */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    text-align: center; /* Center the text inside */
+    z-index: 15; /* Ensure it appears above other elements */
+}
+
+/* Hide the container by default */
+.hidden {
+    display: none; /* Hide the element */
+}
+
+.game-over-image {
+    width: 100px; /* Set width of the image */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 15px; /* Spacing below the image */
+}
+
 #info {
     position: fixed; /* Fixed position for info display */
     top: 10px; /* Distance from the top */
