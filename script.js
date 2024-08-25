@@ -6,7 +6,7 @@ canvas.height = window.innerHeight; // Set canvas height to full window height
 
 let bikeX, bikeY;
 const bikeWidth = 60; // Updated bike width
-const bikeHeight = 60; // Updated bike height
+const bikeHeight = 80; // Updated bike height
 let obstacles = [];
 let flowers = []; // Array to hold flowers
 let distance = 0; // Distance in meters
@@ -144,14 +144,22 @@ function drawObstacles() {
             if (obstacle.x < 0 || obstacle.x > canvas.width - 40) {
                 obstacle.direction *= -1; // Change direction
             }
-        } else {
-            // Draw other obstacles
-            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, 40, 40); // Draw obstacles with images
+            // Draw the obstacle with bounce effect
+            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y + obstacle.bounceOffset, 40, 40); // Draw obstacles with bounce effect
+
+        } 
+        // Check if the obstacle is a pedestrian
+        else if (obstacle.isPedestrian) {
+            // Draw pedestrians with size 60x80
+            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, 60, 80); // Draw pedestrian with updated size
             // Move pedestrians slightly faster down
-            obstacle.y += obstacle.isPedestrian ? 2.5 : 2; // Move pedestrians down faster
+            obstacle.y += 2.5; // Move pedestrians down faster
+        } else {
+            // Draw other obstacles with size 40x40
+            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, 40, 40); // Draw other obstacles with size 40x40
+            // Move other obstacles down slightly
+            obstacle.y += 2; // Move other obstacles down
         }
-        // Draw the obstacle with bounce effect
-        ctx.drawImage(obstacle.image, obstacle.x, obstacle.y + obstacle.bounceOffset, 40, 40); // Draw obstacles with bounce effect
     });
 }
 
