@@ -200,19 +200,30 @@ function showMessage(text, color) {
 
 function checkCollision() {
     for (let obstacle of obstacles) {
-        if (obstacle.y + 40 > bikeY && 
-            bikeX < obstacle.x + 40 && 
-            bikeX + bikeWidth > obstacle.x) {
+
+        // Check if the obstacle is below the biker
+        if (obstacle.y + obstacle.height < bikeY) {
+            continue; // Skip this obstacle if it is below the biker
+        }
+
+        // Check for collision
+        if (obstacle.y < bikeY + bikeHeight && // Biker's bottom is below the obstacle's top
+            obstacle.y + obstacle.height > bikeY && // Biker's top is above the obstacle's bottom
+            bikeX < obstacle.x + obstacle.width && // Biker's left side is to the left of the obstacle's right side
+            bikeX + bikeWidth > obstacle.x) { // Biker's right side is to the right of the obstacle's left side
+
             hearts -= obstacle.heartsLost; // Lose hearts based on obstacle type
             showMessage(`-${obstacle.heartsLost}`, 'blue'); // Show hearts lost message
             if (hearts <= 0) {
                 gameOver = true; // End game if no hearts left
             }
+
             // Remove the collided obstacle
             obstacles = obstacles.filter(o => o !== obstacle);
             break; // Exit loop after collision
         }
     }
+
 
     // Check for flower collection
     for (let flower of flowers) {
