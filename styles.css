@@ -10,7 +10,7 @@ body {
 }
 
 #menu-container {
-    position: fixed; /* Fixed position to stay in place */
+    position: absolute; /* Fixed position to stay in place */
     bottom: 20%; /* Position it 20% from the bottom */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, 0); /* Translate to truly center horizontally */
@@ -112,7 +112,6 @@ canvas {
     transform: translateX(-50%); /* Translate to truly center */
 }
 
-/* Existing styles remain unchanged */
 
 #gameOverContainer {
     position: fixed; /* Fixed position to overlay on the game */
@@ -155,4 +154,61 @@ canvas {
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Translate to truly center */
+}
+
+@media (max-width: 600px) {
+    #menu-container {
+        position: absolute; /* Fixed position to overlay on the game */
+        top: 50%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Translate to truly center */
+        width: 65%; /* Full width on small screens */
+        height: 80%; /* Minimum height */
+        max-height: 400px; /* Limit height */
+        padding: 10px; /* Padding around the content */
+    }
+
+    h1, h3 {
+        margin: 0; /* Remove default margin */
+        font-size: 95%;
+    }
+    
+    p {
+        margin: 10px 0; /* Add vertical spacing for paragraphs */
+        font-size: 96%; /* Increase font size for better readability */ /* Text shadow for headings */
+    }
+
+    /* Instructions Window */
+    #instructions-content {
+        position: fixed; /* Position fixed for overlay */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Center it */
+        width: 90%; /* Responsive width */
+        max-width: 350px; /* Maximum width */
+        height: 80%; /* Minimum height */
+        max-height: 500px; /* Limit height */
+        overflow-y: scroll; /* Add vertical scroll */
+    }
+
+    .button {
+        padding: 8px 10px; /* Smaller padding */
+        font-size: 90%; /* Adjust font size */
+        width: 80%; /* Full width for buttons */
+        max-width: 120px; /* Maximum width */
+        margin: 10 auto; /* Center with margin */
+    }
+    #controls {
+        display: flex;
+        justify-content: space-between; /* Space between buttons */
+        position: fixed; /* Fixed position at the bottom */
+        bottom: 10px; /* Distance from the bottom */
+        flex-direction: row; /* Ensure buttons are in a row */
+        left: 50%; /* Center horizontally */
+        transform: translateX(-50%); /* Translate to truly center */
+    }
+    
+    #info {
+        font-size: 95%; /* Font size for info text */
+   }
 }
