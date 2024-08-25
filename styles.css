@@ -158,7 +158,7 @@ canvas {
 
 @media (max-width: 600px) {
     #menu-container {
-        position: absolute; /* Fixed position to overlay on the game */
+        position: fixed; /* Fixed position to overlay on the game */
         top: 50%; /* Center vertically */
         left: 50%; /* Center horizontally */
         transform: translate(-50%, -50%); /* Translate to truly center */
