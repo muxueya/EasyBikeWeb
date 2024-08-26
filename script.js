@@ -14,8 +14,9 @@ let hearts = 5; // Start with five hearts
 let gameOver = false;
 let startTime; // To track time
 let bgOffset = 0; // For background scrolling
+let bgImageSrc;
+// Constant for the background image
 const bgImage = new Image();
-bgImage.src = 'bg.jpg'; // Background image
 const flowerImage = new Image();
 flowerImage.src = 'Flower.png'; // Flower image
 const bikeImage = new Image();
@@ -61,6 +62,17 @@ function startGame(selectedDifficulty) {
     bikeY = canvas.height - 140; // Position bike two rows above the control buttons
     gameOver = false; // Reset game over state
     startTime = Date.now(); // Start timer
+    
+    // Set the background image based on difficulty
+    if (difficulty === 'easy') {
+        bgImageSrc = 'bg_easy.jpg'; // Easy mode background
+    } else if (difficulty === 'medium') {
+        bgImageSrc = 'bg_medium.jpg'; // Medium mode background
+    } else {
+        bgImageSrc = 'bg_hard.jpg'; // Hard mode background (unchanged)
+    }
+
+    bgImage.src = bgImageSrc; // Update the background image source
     document.getElementById('menu').style.display = 'none'; // Hide menu
     document.getElementById('menu-container').classList.add('hidden'); // Hide the menu
     document.getElementById('game').style.display = 'block'; // Show game
