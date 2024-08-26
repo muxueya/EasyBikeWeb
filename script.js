@@ -255,6 +255,22 @@ function updateScore() {
     document.getElementById('time').innerText = `⏱️ Time: ${formatTime(Math.floor((Date.now() - startTime) / 1000))}`; // Update time display
 }
 
+function getGameOverMessage(distance) {
+    if (distance <= 500) {
+        return "Every journey begins with a single pedal. Keep practicing!";
+    } else if (distance <= 1000) {
+        return "Great start! You're getting the hang of this. Keep it up!";
+    } else if (distance <= 1500) {
+        return "Nice job! You're cruising now! Can you go even further?";
+    } else if (distance <= 2000) {
+        return "Impressive! You've got some serious biking skills!";
+    } else if (distance <= 2500) {
+        return "Fantastic ride! You're becoming a biking pro!";
+    } else {
+        return "Incredible! You’re a biking legend! Can anyone beat your record?";
+    }
+}
+
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBackground(); // Draw scrolling background
@@ -272,6 +288,9 @@ function gameLoop() {
     } else {
         // Show the game over container
         document.getElementById('finalDistance').innerText = `Distance: ${distance} m`; // Update distance
+        // Get the player message based on distance and display it
+        const playerMessage = getGameOverMessage(distance); // Get message
+        document.getElementById('playerMessage').innerText = playerMessage; // Display the message        
         document.getElementById('gameOverContainer').classList.remove('hidden'); // Show the container
         document.getElementById('game').style.display = 'none'; // Hide the game canvas
     }
