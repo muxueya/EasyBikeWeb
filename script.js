@@ -5,8 +5,6 @@ canvas.width = window.innerWidth; // Set canvas width to full window width
 canvas.height = window.innerHeight; // Set canvas height to full window height
 
 let bikeX, bikeY;
-const bikeWidth = 60; // Updated bike width
-const bikeHeight = 80; // Updated bike height
 let obstacles = [];
 let flowers = []; // Array to hold flowers
 let distance = 0; // Distance in meters
@@ -45,6 +43,42 @@ const obstacleTypes = {
     ]
 };
 
+// Define size variables for biker and obstacles
+let bikeWidth = 60;
+let bikeHeight = 80;
+let obstacleWidth = 40;
+let obstacleHeight = 40;
+let pedestrianWidth = 60;
+let pedestrianHeight = 80;
+let bikeAbovebottom = 140; // Distance of bike from bottom
+
+// Function to adjust sizes based on screen width
+function adjustSizes() {
+    if (window.innerWidth >= 1200) {
+        bikeWidth = 100; // Increase biker size for larger screens
+        bikeHeight = 130;
+        obstacleWidth = 60; // Increase obstacle size
+        obstacleHeight = 60;
+        pedestrianWidth = 100; // Increase pedestrian size
+        pedestrianHeight = 130;
+        bikeAbovebottom = 220;
+    } else {
+        bikeWidth = 60; // Default size for smaller screens
+        bikeHeight = 80;
+        obstacleWidth = 40;
+        obstacleHeight = 40;
+        pedestrianWidth = 60;
+        pedestrianHeight = 80;
+        bikeAbovebottom = 140;
+    }
+}
+
+// Call adjustSizes on window resize
+window.addEventListener('resize', adjustSizes);
+
+// Initial size adjustment
+adjustSizes();
+
 // Message variables
 let message = ''; // Message to display for hearts lost or gained
 let messageColor = ''; // Color of the message
@@ -59,7 +93,7 @@ function startGame(selectedDifficulty) {
     flowers = []; // Clear flowers
     bgOffset = 0; // Reset background offset
     bikeX = canvas.width / 2 - 30; // Center bike horizontally
-    bikeY = canvas.height - 140; // Position bike two rows above the control buttons
+    bikeY = canvas.height - bikeAbovebottom; // Position bike two rows above the control buttons
     gameOver = false; // Reset game over state
     startTime = Date.now(); // Start timer
     
@@ -121,14 +155,12 @@ function drawBike() {
 function createObstacle() {
     const obstacleOptions = obstacleTypes[difficulty]; // Get obstacle options based on difficulty
     const obstacleChoice = obstacleOptions[Math.floor(Math.random() * obstacleOptions.length)];
-    const obstacleX = Math.random() * (canvas.width - 40); // Random horizontal position
+    const obstacleX = Math.random() * (canvas.width - obstacleWidth); // Random horizontal position
 
     // Create the obstacle object with its properties
     obstacles.push({
         x: obstacleX,
-        y: -40,
-        width: 40,
-        height: 40,
+        y: -obstacleHeight,
         image: obstacleChoice.type === 'rock' ? rockImage :
                obstacleChoice.type === 'rabbit' ? rabbitRightImage : // Start with right image for rabbit
                pedestrianImage, // Assign appropriate image based on type
@@ -162,22 +194,22 @@ function drawObstacles() {
             obstacle.bounceOffset = Math.sin(Date.now() / 100) * 5; // Bounce effect
 
             // Reverse direction if it hits the canvas edges
-            if (obstacle.x < 0 || obstacle.x > canvas.width - 40) {
+            if (obstacle.x < 0 || obstacle.x > canvas.width - obstacleWidth) {
                 obstacle.direction *= -1; // Change direction
             }
             // Draw the obstacle with bounce effect
-            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y + obstacle.bounceOffset, 40, 40); // Draw obstacles with bounce effect
+            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y + obstacle.bounceOffset, obstacleWidth, obstacleHeight); // Draw obstacles with bounce effect
 
         } 
         // Check if the obstacle is a pedestrian
         else if (obstacle.isPedestrian) {
             // Draw pedestrians with size 60x80
-            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, 60, 80); // Draw pedestrian with updated size
+            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, pedestrianWidth, pedestrianHeight); // Draw pedestrian with updated size
             // Move pedestrians slightly faster down
             obstacle.y += 2.5; // Move pedestrians down faster
         } else {
             // Draw other obstacles with size 40x40
-            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, 40, 40); // Draw other obstacles with size 40x40
+            ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacleWidth, obstacleHeight); // Draw other obstacles with size 40x40
             // Move other obstacles down slightly
             obstacle.y += 2; // Move other obstacles down
         }
@@ -212,16 +244,15 @@ function showMessage(text, color) {
 
 function checkCollision() {
     for (let obstacle of obstacles) {
-
         // Check if the obstacle is below the biker
-        if (obstacle.y + obstacle.height < bikeY) {
+        if (obstacle.y + obstacleHeight < bikeY) {
             continue; // Skip this obstacle if it is below the biker
         }
 
-        // Check for collision
+        // Check for collision using updated sizes
         if (obstacle.y < bikeY + bikeHeight && // Biker's bottom is below the obstacle's top
-            obstacle.y + obstacle.height > bikeY && // Biker's top is above the obstacle's bottom
-            bikeX < obstacle.x + obstacle.width && // Biker's left side is to the left of the obstacle's right side
+            obstacle.y + (obstacle.isPedestrian ? pedestrianHeight : obstacleHeight) > bikeY && // Biker's top is above the obstacle's bottom
+            bikeX < obstacle.x + (obstacle.isPedestrian ? pedestrianWidth : obstacleWidth) && // Biker's left side is to the left of the obstacle's right side
             bikeX + bikeWidth > obstacle.x) { // Biker's right side is to the right of the obstacle's left side
 
             hearts -= obstacle.heartsLost; // Lose hearts based on obstacle type
