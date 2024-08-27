@@ -164,8 +164,13 @@ canvas {
         transform: translate(-50%, -50%); /* Translate to truly center */
         width: 65%; /* Full width on small screens */
         height: 80%; /* Minimum height */
-        max-height: 400px; /* Limit height */
+        max-height: 430px; /* Limit height */
         padding: 10px; /* Padding around the content */
+    }
+
+    #logo {
+        width: 60%; /* Full width for the logo */
+        height: 60%;
     }
 
     h1, h3 {
