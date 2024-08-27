@@ -212,3 +212,7 @@ canvas {
         font-size: 95%; /* Font size for info text */
    }
 }
+
+* {
+    touch-action: manipulation;
+}
