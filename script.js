@@ -354,9 +354,9 @@ function getGameOverMessage(distance) {
         return "Great start! You're getting the hang of this. Keep it up!";
     } else if (distance <= 1500) {
         return "Nice job! You're cruising now! Can you go even further?";
-    } else if (distance <= 2000) {
+    } else if (distance <= 3000) {
         return "Impressive! You've got some serious biking skills!";
-    } else if (distance <= 2500) {
+    } else if (distance <= 5000) {
         return "Fantastic ride! You're becoming a biking pro!";
     } else {
         return "Incredible! You’re a biking legend! Can anyone beat your record?";
