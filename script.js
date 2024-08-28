@@ -7,6 +7,7 @@ canvas.height = window.innerHeight; // Set canvas height to full window height
 let bikeX, bikeY;
 let obstacles = [];
 let flowers = []; // Array to hold flowers
+let magics = []; // Array to hold magic items
 let distance = 0; // Distance in meters
 let hearts = 5; // Start with five hearts
 let gameOver = false;
@@ -17,6 +18,8 @@ let bgImageSrc;
 const bgImage = new Image();
 const flowerImage = new Image();
 flowerImage.src = 'Flower.png'; // Flower image
+const magicImage = new Image();
+magicImage.src = 'Magic.png'; // Magic image
 const bikeImage = new Image();
 bikeImage.src = 'Biker.png'; // Biker image
 const rockImage = new Image();
@@ -91,6 +94,7 @@ function startGame(selectedDifficulty) {
     distance = 0; // Reset distance
     obstacles = []; // Clear obstacles
     flowers = []; // Clear flowers
+    magics = []; // Clear magic items
     bgOffset = 0; // Reset background offset
     bikeX = canvas.width / 2 - 30; // Center bike horizontally
     bikeY = canvas.height - bikeAbovebottom; // Position bike two rows above the control buttons
@@ -148,8 +152,29 @@ function drawBackground() {
     ctx.drawImage(bgImage, 0, (bgOffset % drawHeight) - drawHeight, drawWidth, drawHeight);
 }
 
+// Variables for invisibility
+let isInvisible = false; // Track if the biker is invisible
+let invisibilityDuration = 5000; // Duration of invisibility in milliseconds
+
+function createMagic() {
+    const magicX = Math.random() * (canvas.width - 30); // Random horizontal position
+    magics.push({
+        x: magicX,
+        y: -30,
+        width: 30,
+        height: 30,
+        image: magicImage // Use the magic image
+    });
+}
+
 function drawBike() {
+    if (isInvisible) {
+        ctx.globalAlpha = 0.5; // Set transparency when invisible
+    } else {
+        ctx.globalAlpha = 1; // Reset transparency when visible
+    }
     ctx.drawImage(bikeImage, bikeX, bikeY, bikeWidth, bikeHeight); // Draw biker
+    ctx.globalAlpha = 1; // Reset alpha for other drawings
 }
 
 function createObstacle() {
@@ -224,6 +249,13 @@ function drawFlowers() {
     });
 }
 
+function drawMagic() {
+    magics.forEach(magic => {
+        ctx.drawImage(magic.image, magic.x, magic.y, magic.width, magic.height); // Draw magic equipment
+        magic.y += 2; // Move magic equipment from top to bottom
+    });
+}
+
 function drawMessage() {
     if (message) {
         ctx.fillStyle = messageColor; // Set the message color
@@ -249,21 +281,23 @@ function checkCollision() {
             continue; // Skip this obstacle if it is below the biker
         }
 
-        // Check for collision using updated sizes
-        if (obstacle.y < bikeY + bikeHeight && // Biker's bottom is below the obstacle's top
-            obstacle.y + (obstacle.isPedestrian ? pedestrianHeight : obstacleHeight) > bikeY && // Biker's top is above the obstacle's bottom
-            bikeX < obstacle.x + (obstacle.isPedestrian ? pedestrianWidth : obstacleWidth) && // Biker's left side is to the left of the obstacle's right side
-            bikeX + bikeWidth > obstacle.x) { // Biker's right side is to the right of the obstacle's left side
+        // Check for collision only if not invisible
+        if (!isInvisible) {
+            if (obstacle.y < bikeY + bikeHeight && // Biker's bottom is below the obstacle's top
+                obstacle.y + obstacleHeight > bikeY && // Biker's top is above the obstacle's bottom
+                bikeX < obstacle.x + obstacleWidth && // Biker's left side is to the left of the obstacle's right side
+                bikeX + bikeWidth > obstacle.x) { // Biker's right side is to the right of the obstacle's left side
 
-            hearts -= obstacle.heartsLost; // Lose hearts based on obstacle type
-            showMessage(`-${obstacle.heartsLost}`, 'blue'); // Show hearts lost message
-            if (hearts <= 0) {
-                gameOver = true; // End game if no hearts left
+                hearts -= obstacle.heartsLost; // Lose hearts based on obstacle type
+                showMessage(`-${obstacle.heartsLost}`, 'blue'); // Show hearts lost message
+                if (hearts <= 0) {
+                    gameOver = true; // End game if no hearts left
+                }
+
+                // Remove the collided obstacle
+                obstacles = obstacles.filter(o => o !== obstacle);
+                break; // Exit loop after collision
             }
-
-            // Remove the collided obstacle
-            obstacles = obstacles.filter(o => o !== obstacle);
-            break; // Exit loop after collision
         }
     }
 
@@ -280,6 +314,21 @@ function checkCollision() {
             // Remove the collected flower
             flowers = flowers.filter(f => f !== flower);
             break; // Exit loop after collecting flower
+        }
+    }
+
+    // Check for magic equipment collision
+    for (let magic of magics) {
+        if (magic.y + magic.height > bikeY &&
+            bikeX < magic.x + magic.width &&
+            bikeX + bikeWidth > magic.x) {
+            isInvisible = true; // Make the biker invisible
+            setTimeout(() => {
+                isInvisible = false; // Make the biker visible after a delay
+            }, invisibilityDuration); // Set invisibility duration
+            // Remove the collided magic equipment
+            magics = magics.filter(m => m !== magic);
+            break; // Exit loop after collision
         }
     }
 }
@@ -321,12 +370,14 @@ function gameLoop() {
         drawBike();
         drawObstacles();
         drawFlowers(); // Draw flowers
+        drawMagic(); // Draw magic equipment
         checkCollision();
         updateScore();
         drawMessage(); // Draw the message for hearts lost or gained
         // Randomly create obstacles and flowers
         if (Math.random() < 0.05) createObstacle(); // Increased obstacle generation rate
         if (Math.random() < 0.01) createFlower(); // Decreased flower generation rate to 10%
+        if (Math.random() < 0.001) createMagic(); // 0.1% chance to create invisible equipment
         requestAnimationFrame(gameLoop);
     } else {
         // Show the game over container
