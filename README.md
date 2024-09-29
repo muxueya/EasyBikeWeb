@@ -1,6 +1,6 @@
-# Biking Game
+# Cycling Adventure
 
-Welcome to the **Biking Game**, a fun and interactive browser game where you avoid obstacles, collect hearts, and keep biking! The game allows you to select different difficulty levels and track your distance as you dodge various obstacles along the way.
+Welcome to the **Cycling Adventure**, a fun and interactive browser game where you avoid obstacles, collect hearts, and keep biking! The game allows you to select different difficulty levels and track your distance as you dodge various obstacles along the way.
 
 ## Features
 
